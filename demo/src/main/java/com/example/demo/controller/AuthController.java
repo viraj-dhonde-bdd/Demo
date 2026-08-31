@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
+import java.time.Duration;
 
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +17,7 @@ import com.example.demo.dto.RefreshTokenRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.service.AuthService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -34,7 +38,20 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(
-            @RequestBody LoginRequest request) {
+            @RequestBody LoginRequest request,
+            HttpServletResponse response) {
+
+        AuthResponse authResponse = authService.login(request);
+
+        addAccessTokenCookie(
+                response,
+                authResponse.getAccessToken()
+        );
+
+        addRefreshTokenCookie(
+                response,
+                authResponse.getRefreshToken()
+        );
 
         return ResponseEntity.ok(
                 authService.login(request)
@@ -52,15 +69,76 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(
-            @RequestBody RefreshTokenRequest request) {
+            @CookieValue(value = "refresh_token", required = false)
+            String refreshToken,
+            HttpServletResponse response) {
 
-        authService.logout(
-                request.getRefreshToken()
-        );
+        if (refreshToken != null) {
+            authService.logout(refreshToken);
+        }
+
+        clearCookie(response, "access_token");
+        clearCookie(response, "refresh_token");
 
         return ResponseEntity.ok(
                 "Logged out successfully"
         );
     }
-}
 
+    private void addAccessTokenCookie(
+            HttpServletResponse response,
+            String token) {
+
+        ResponseCookie cookie = ResponseCookie
+                .from("access_token", token)
+                .httpOnly(true)
+                .secure(false) // true in production HTTPS
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(Duration.ofMinutes(15))
+                .build();
+
+        response.addHeader(
+                HttpHeaders.SET_COOKIE,
+                cookie.toString()
+        );
+    }
+
+    private void addRefreshTokenCookie(
+            HttpServletResponse response,
+            String token) {
+
+        ResponseCookie cookie = ResponseCookie
+                .from("refresh_token", token)
+                .httpOnly(true)
+                .secure(false) // true in production HTTPS
+                .sameSite("Lax")
+                .path("/api/auth")
+                .maxAge(Duration.ofDays(7))
+                .build();
+
+        response.addHeader(
+                HttpHeaders.SET_COOKIE,
+                cookie.toString()
+        );
+    }
+
+    private void clearCookie(
+            HttpServletResponse response,
+            String name) {
+
+        ResponseCookie cookie = ResponseCookie
+                .from(name, "")
+                .httpOnly(true)
+                .secure(false)
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(0)
+                .build();
+
+        response.addHeader(
+                HttpHeaders.SET_COOKIE,
+                cookie.toString()
+        );
+    }
+}
