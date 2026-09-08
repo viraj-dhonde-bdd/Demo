@@ -14,6 +14,7 @@ import com.example.demo.repository.UserRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // Extract JWT token
         String token = authHeader.substring(7);
+        
+        String jwt = null;
+
+        // =========================================
+        // Read JWT from Cookie
+        // =========================================
+
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+
+            for (Cookie cookie : cookies) {
+
+                if ("JWT".equals(cookie.getName())) {
+
+                    jwt = cookie.getValue();
+
+                    break;
+                }
+            }
+        }
 
         try {
 

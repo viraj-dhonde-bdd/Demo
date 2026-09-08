@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.time.Duration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RefreshTokenRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.service.AuthService;
+import com.example.demo.service.FreeSmsSenderService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,9 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthService authService;
+    
+    @Autowired
+    public final FreeSmsSenderService freeSmsSenderService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
@@ -42,6 +47,8 @@ public class AuthController {
             HttpServletResponse response) {
 
         AuthResponse authResponse = authService.login(request);
+        
+        //FreeSmsSenderService.sendFreeSms(); // Send free SMS on login
 
         addAccessTokenCookie(
                 response,
@@ -53,9 +60,7 @@ public class AuthController {
                 authResponse.getRefreshToken()
         );
 
-        return ResponseEntity.ok(
-                authService.login(request)
-        );
+        return ResponseEntity.ok(authResponse);
     }
 
     @PostMapping("/refresh")
