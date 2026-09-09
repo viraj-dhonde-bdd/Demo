@@ -1,7 +1,9 @@
 package com.example.demo.Menu.Entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,6 +16,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -33,31 +37,32 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Menu {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(nullable = false, unique = true)
-    private String title;
-    private String url;
-    private String icon;
+	private String title;
+	private String url;
+	private String icon;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Menu parent;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_id")
+	private Menu parent;
 
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Menu> submenus = new ArrayList<>();
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Menu> submenus = new ArrayList<>();
 
-    // If you specifically need the parent's ID in your business logic, 
-    // you can extract it via a helper method:
-    public Long getParentId() {
-        return parent != null ? parent.getId() : null;
-    }
-    
- // 1. Put @JsonIgnore HERE on the getter to stop Jackson from serializing the full parent object
-    @JsonIgnore
-    public Menu getParent() {
-        return parent;
-    }
-    
+	// If you specifically need the parent's ID in your business logic,
+	// you can extract it via a helper method:
+	public Long getParentId() {
+		return parent != null ? parent.getId() : null;
+	}
+
+	// 1. Put @JsonIgnore HERE on the getter to stop Jackson from serializing the
+	// full parent object
+	@JsonIgnore
+	public Menu getParent() {
+		return parent;
+	}
+
 }

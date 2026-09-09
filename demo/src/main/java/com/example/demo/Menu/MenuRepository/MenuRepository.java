@@ -40,12 +40,11 @@ public class MenuRepository {
             return Collections.emptyList();
         }
 
-        //String sql = "SELECT DISTINCT m.id, m.title, m.url, m.icon, m.parent_id " +
         String sql = "SELECT DISTINCT m.id, m.title, m.url, m.parent_id " +
                      "FROM menus m " +
                      "JOIN role_menus rm ON m.id = rm.menu_id " +
                      "JOIN roles r ON rm.role_id = r.id " +
-                     "WHERE r.name IN (:roleNames)";
+                     "WHERE r.name IN (:roleNames) order by ID";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("roleNames", roleNames);
