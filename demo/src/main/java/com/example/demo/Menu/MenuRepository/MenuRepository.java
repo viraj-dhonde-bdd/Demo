@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Menu.Entity.Menu;
+import com.example.demo.Menu.Entity.Menu1;
 
 @Repository
 public class MenuRepository {
@@ -18,8 +18,8 @@ public class MenuRepository {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private final RowMapper<Menu> menuRowMapper = (rs, rowNum) -> {
-        Menu menu = new Menu();
+    private final RowMapper<Menu1> menuRowMapper = (rs, rowNum) -> {
+        Menu1 menu = new Menu1();
         menu.setId(rs.getLong("id"));
         menu.setTitle(rs.getString("title"));
         menu.setUrl(rs.getString("url"));
@@ -27,7 +27,7 @@ public class MenuRepository {
         
         Long parentId = rs.getObject("parent_id") != null ? rs.getLong("parent_id") : null;
         if (parentId != null) {
-            Menu parent = new Menu();
+            Menu1 parent = new Menu1();
             parent.setId(parentId);
             menu.setParent(parent);
         }
@@ -35,7 +35,7 @@ public class MenuRepository {
         return menu;
     };
 
-    public List<Menu> findMenusByRoleNames(List<String> roleNames) {
+    public List<Menu1> findMenusByRoleNames(List<String> roleNames) {
         if (roleNames == null || roleNames.isEmpty()) {
             return Collections.emptyList();
         }

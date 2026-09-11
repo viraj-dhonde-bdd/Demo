@@ -1,9 +1,8 @@
 package com.example.demo.Menu.Entity;
 
+import java.awt.Menu;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,8 +15,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -35,7 +32,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Menu {
+public class Menu1 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -46,11 +43,11 @@ public class Menu {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
-	private Menu parent;
+	private Menu1 parent;
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Menu> submenus = new ArrayList<>();
+	private List<Menu1> submenus = new ArrayList<>();
 
 	// If you specifically need the parent's ID in your business logic,
 	// you can extract it via a helper method:
@@ -61,7 +58,7 @@ public class Menu {
 	// 1. Put @JsonIgnore HERE on the getter to stop Jackson from serializing the
 	// full parent object
 	@JsonIgnore
-	public Menu getParent() {
+	public Menu1 getParent() {
 		return parent;
 	}
 
