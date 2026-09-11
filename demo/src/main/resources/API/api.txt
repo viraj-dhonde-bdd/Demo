@@ -1,0 +1,74 @@
+POST
+https://localhost:8443/api/menus
+{
+    "ROLE_ADMIN": [
+        {
+            "title": "User Management",
+            "url": "/management",
+            "icon": "fa-cog",
+            "submenus": [
+                {
+                    "title": "Add User",
+                    "url": "/vendor/addVendor",
+                    "icon": "fa-users"
+                },
+                {
+                    "title": "Update User",
+                    "url": "/vendor/updateVendor",
+                    "icon": "fa-edit"
+                },
+                {
+                    "title": "Delete User",
+                    "url": "/vendor/deleteVendor",
+                    "icon": "fa-trash"
+                }
+            ]
+        }
+    ],
+    "ROLE_USER": [
+        {
+            "title": "User Management",
+            "url": "/management",
+            "icon": "fa-cog",
+            "submenus": [
+                {
+                    "title": "Add User",
+                    "url": "/vendor/addVendor",
+                    "icon": "fa-users"
+                },
+                {
+                    "title": "Update User",
+                    "url": "/vendor/updateUser",
+                    "icon": "fa-edit"
+                }
+            ]
+        }
+    ]
+}
+
+{
+    "ROLE_ADMIN": [
+        {
+            "title": "Vendor Management",
+            "url": "/vendor",
+            "icon": "fa-cog",
+            "submenus": [
+                {
+                    "title": "Add Vendor",
+                    "url": "/vendor/addVendor",
+                    "icon": "fa-users"
+                }
+            ]
+        }
+    ],
+    "ROLE_USER": [
+        {
+            "title": "Vendor Management",
+            "url": "/management",
+            "icon": "fa-cog"
+        }
+    ]
+}
+
+GET
+https://localhost:8443/api/menus/ROLE_USER
