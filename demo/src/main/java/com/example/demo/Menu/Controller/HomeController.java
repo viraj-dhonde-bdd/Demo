@@ -1,6 +1,5 @@
 package com.example.demo.Menu.Controller;
 
-import java.awt.Menu;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Menu.Entity.Menu1;
 import com.example.demo.Menu.Service.MenuInsertService;
-import com.example.demo.Menu.Service.MenuService;
+import com.example.demo.Menu.Service.MenuService1;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class HomeController {
 
     @Autowired
-    private MenuService menuService;
+    private MenuService1 menuService;
     @Autowired
     private MenuInsertService menuInsertService;
 

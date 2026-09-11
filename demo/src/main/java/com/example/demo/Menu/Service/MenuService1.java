@@ -12,7 +12,7 @@ import com.example.demo.Menu.Entity.Menu1;
 import com.example.demo.Menu.MenuRepository.MenuRepository1;
 
 @Service
-public class MenuService {
+public class MenuService1 {
 
     @Autowired
     private MenuRepository1 menuRepository;
