@@ -1,6 +1,5 @@
 package com.example.demo.Menu.Service;
 
-import java.awt.Menu;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Menu.Entity.Menu1;
-import com.example.demo.Menu.MenuRepository.MenuRepository;
+import com.example.demo.Menu.MenuRepository.MenuRepository1;
 
 @Service
 public class MenuService {
 
     @Autowired
-    private MenuRepository menuRepository;
+    private MenuRepository1 menuRepository;
 
     public List<Menu1> getHierarchicalMenusForRoles(List<String> roles) {
         List<Menu1> flatMenus = menuRepository.findMenusByRoleNames(roles);

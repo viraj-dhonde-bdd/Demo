@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.Menu.Entity.Menu1;
 
 @Repository
-public class MenuRepository {
+public class MenuRepository1 {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
