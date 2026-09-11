@@ -72,5 +72,7 @@ CREATE TABLE bo_submenu (
     title VARCHAR(255) NOT NULL,
     url VARCHAR(255) NOT NULL,
     icon VARCHAR(100) NOT NULL,
-    CONSTRAINT fk_submenu_menu FOREIGN KEY (menu_id) REFERENCES bo_menu(menu_id) ON DELETE CASCADE
+    CONSTRAINT fk_submenu_menu FOREIGN KEY (menu_id) 
+    REFERENCES bo_menu(menu_id) ON DELETE CASCADE -- if menu is deleted, delete its submenus as well
 );
+

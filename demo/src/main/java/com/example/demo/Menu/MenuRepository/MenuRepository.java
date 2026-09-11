@@ -141,4 +141,30 @@ public class MenuRepository {
 
         return new ArrayList<>(menuMap.values());
     }
+    
+    @Transactional
+    public boolean deleteMenu(long menuId) {
+        // Due to ON DELETE CASCADE, deleting the menu automatically deletes its submenus
+        String sql = "DELETE FROM bo_menu WHERE menu_id = ?";
+        return jdbcTemplate.update(sql, menuId) > 0;
+    }
+
+    @Transactional
+    public boolean deleteSubmenu(long submenuId) {
+        String sql = "DELETE FROM bo_submenu WHERE sm_id = ?";
+        return jdbcTemplate.update(sql, submenuId) > 0;
+    }
+
+    @Transactional
+    public boolean updateMenu(long menuId, MenuDto menuDto) {
+        String sql = "UPDATE bo_menu SET title = ?, url = ?, icon = ? WHERE menu_id = ?";
+        return jdbcTemplate.update(sql, menuDto.getTitle(), menuDto.getUrl(), menuDto.getIcon(), menuId) > 0;
+    }
+
+    @Transactional
+    public boolean updateSubmenu(long submenuId, SubmenuDto submenuDto) {
+        String sql = "UPDATE bo_submenu SET title = ?, url = ?, icon = ? WHERE sm_id = ?";
+        return jdbcTemplate.update(sql, submenuDto.getTitle(), submenuDto.getUrl(), submenuDto.getIcon(), submenuId) > 0;
+    }
+    
 }

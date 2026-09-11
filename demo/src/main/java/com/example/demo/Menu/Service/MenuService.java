@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Menu.Entity.MenuDto;
+import com.example.demo.Menu.Entity.SubmenuDto;
 import com.example.demo.Menu.MenuRepository.MenuRepository;
 
 @Service
@@ -23,5 +24,21 @@ public class MenuService {
 
     public List<MenuDto> getMenusForRole(String role) {
         return menuRepository.findMenusByRole(role);
+    }
+    
+    public boolean removeMenu(long menuId) {
+        return menuRepository.deleteMenu(menuId);
+    }
+
+    public boolean removeSubmenu(long submenuId) {
+        return menuRepository.deleteSubmenu(submenuId);
+    }
+
+    public boolean modifyMenu(long menuId, MenuDto menuDto) {
+        return menuRepository.updateMenu(menuId, menuDto);
+    }
+
+    public boolean modifySubmenu(long submenuId, SubmenuDto submenuDto) {
+        return menuRepository.updateSubmenu(submenuId, submenuDto);
     }
 }
