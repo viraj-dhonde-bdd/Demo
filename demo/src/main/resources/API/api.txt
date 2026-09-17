@@ -1,4 +1,5 @@
 POST
+Insert_Menu
 https://localhost:8443/api/menus
 {
     "ROLE_ADMIN": [
@@ -71,4 +72,26 @@ https://localhost:8443/api/menus
 }
 
 GET
+Get_Menu
 https://localhost:8443/api/menus/ROLE_USER
+
+PUT
+Update Menu By ID
+https://localhost:8443/api/menus/2
+{
+    "title": "Updated User Management",
+    "url": "/management-updated",
+    "icon": "fa-cogs"
+}
+
+
+PUT
+Uodate Submenu By ID
+https://localhost:8443/api/menus/submenus/4
+
+{
+    "title": "Add User",
+    "url": "/User/addUser",
+    "icon": "fa-addUser"
+}
+
